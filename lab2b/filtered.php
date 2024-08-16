@@ -1,9 +1,8 @@
 <?php
 
-define('CUSTOMERS_FILE_PATH', 'customers-100000.csv');
+define('CUSTOMERS_FILE_PATH', 'path_to_your_large_dataset.csv'); // Update with your dataset path
 
-function get_hundred_customers_data( $filter_letter )
-{
+function get_customers_data($filter_letter) {
     $opened_file_handler = fopen(CUSTOMERS_FILE_PATH, 'r');
 
     $data = [];
@@ -14,10 +13,10 @@ function get_hundred_customers_data( $filter_letter )
         $row = fgetcsv($opened_file_handler, 1024);
         if (!empty($row)) {
             if ($row_count == 0) {
-                array_push($headers, $row);    
+                $headers = $row; // Save headers for later use
             } else {
                 if ($row[3][0] == $filter_letter) {
-                    array_push($data, $row);
+                    $data[] = $row;
                 }
             }
         }
@@ -25,6 +24,7 @@ function get_hundred_customers_data( $filter_letter )
         $row_count++;
 
     }
+    fclose($opened_file_handler);
 
     return [
         'headers' => $headers,
@@ -32,11 +32,12 @@ function get_hundred_customers_data( $filter_letter )
     ];
 }
 
-$chosen_letter = $_GET['letter'];
+$chosen_letter = $_GET['letter'] ?? 'A';
 
-$customers = get_hundred_customers_data($chosen_letter);
+$customers = get_customers_data($chosen_letter);
 
 ?>
+
 <html>
 <head>
     <meta charset="utf-8">

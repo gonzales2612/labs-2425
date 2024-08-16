@@ -1,6 +1,6 @@
 <?php
 
-define('CUSTOMERS_FILE_PATH', 'customers-100.csv');
+define('CUSTOMERS_FILE_PATH', 'customers-100000.csv');
 
 function get_hundred_customers_data()
 {
@@ -41,6 +41,20 @@ $customers = get_hundred_customers_data();
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-4.15.0.min.css" />   
 </head>
 <body>
+
+
+<?php
+//displaying the runtime
+$time_start = microtime(true);
+
+// Sleep for a while
+usleep(100);
+
+$time_end = microtime(true);
+$time = $time_end - $time_start;
+
+echo "Did nothing in $time seconds\n";
+?>
 
 <h1>
     Customers
